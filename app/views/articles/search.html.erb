@@ -14,7 +14,10 @@
     <h2 class="text-center mb-5">Search Results:</h2>
     <ul class="list-group">
       <% @articles.each do |article| %>
-        <li class="list-group-item"> <h3><%= article.title %></h3><br><p><%= article .content%></p></li>
+        <li class="list-group-item">
+          <h3><%= article.title %></h3>
+          <p><%= article.content %></p>
+        </li>
       <% end %>
     </ul>
   <% else %>
@@ -27,47 +30,48 @@
     const searchInput = document.getElementById("search-query");
     const suggestionsBox = document.getElementById("autocomplete-suggestions");
 
-    // Function to handle suggestion click
-    function handleSuggestionClick(event) {
-      // Prevent default link behavior
-      event.preventDefault();
-      // Check if the clicked element is a suggestion
-      if (event.target.tagName === 'A') {
-        // Set the input value to the text of the clicked suggestion
-        searchInput.value = event.target.textContent;
-        // Optionally, hide the suggestions box
-        suggestionsBox.style.display = 'none';
-        // Optionally, trigger the search or redirect
-        // searchForm.submit(); // If you have a form to submit
-        // window.location.href = `/articles?search[query]=${encodeURIComponent(event.target.textContent)}`; // Or redirect to a search page
-      }
-    }
-
-    // Delegate click events from the suggestions box to the suggestions
-    suggestionsBox.addEventListener("click", handleSuggestionClick);
-
     searchInput.addEventListener("input", function() {
-      const query = searchInput.value;
-      if (query.length < 1) {
-        suggestionsBox.style.display = 'none';
-        return;
-      }
-
-      fetch(`/articles/search.json?search[query]=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.length > 0) {
-            suggestionsBox.innerHTML = data.map(title => `<a href="#" class="list-group-item list-group-item-action">${title}</a>`).join('');
-            suggestionsBox.style.display = 'block';
-          } else {
+      const query = searchInput.value.trim();
+      if (query.length > 0) {
+        fetch(`/articles/search.json?search[query]=${encodeURIComponent(query)}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.length > 0) {
+              suggestionsBox.innerHTML = data.map(title => `<a href="#" class="list-group-item list-group-item-action">${title}</a>`).join('');
+              suggestionsBox.style.display = 'block';
+            } else {
+              suggestionsBox.style.display = 'none';
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching suggestions:', error);
             suggestionsBox.style.display = 'none';
-          }
-        });
+          });
+      } else {
+        suggestionsBox.style.display = 'none';
+      }
     });
 
-    // Hide suggestions when not focused
+    suggestionsBox.addEventListener("click", function(event) {
+      event.preventDefault();
+      if (event.target.tagName === 'A') {
+        searchInput.value = event.target.textContent;
+        suggestionsBox.style.display = 'none';
+      }
+    });
+
     searchInput.addEventListener("blur", function() {
       setTimeout(() => suggestionsBox.style.display = 'none', 200);
+    });
+
+    const searchForm = document.getElementById("search-form");
+    searchForm.addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent the default form submission
+      const query = searchInput.value.trim();
+      if (query) {
+        // Redirect to the search results page with the query
+        window.location.href = `${searchForm.getAttribute('action')}?search[query]=${encodeURIComponent(query)}`;
+      }
     });
   });
 </script>
