@@ -1,0 +1,73 @@
+<%= form_with url: search_articles_path, method: :get, local: true, id: "search-form", class: "row g-3 justify-content-center m-5" do |form| %>
+  <div class="col-12 col-md-6 position-relative">
+    <%= form.label :query, "Search for articles:", class: "visually-hidden" %>
+    <%= form.text_field :query, name: "search[query]", id: "search-query", autocomplete: "off", class: "form-control", placeholder: "Search articles" %>
+    <div id="autocomplete-suggestions" class="list-group position-absolute" style="width: 98%; z-index: 1000; display: none;"></div>
+  </div>
+  <div class="col-auto">
+    <%= form.submit "Search", class: "btn btn-primary mb-3" %>
+  </div>
+<% end %>
+
+<div id="search-results" class="mt-4">
+  <% if @articles.present? %>
+    <h2 class="text-center mb-5">Search Results:</h2>
+    <ul class="list-group">
+      <% @articles.each do |article| %>
+        <li class="list-group-item"> <h3><%= article.title %></h3><br><p><%= article .content%></p></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-center text-muted">No articles found.</p>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("search-query");
+    const suggestionsBox = document.getElementById("autocomplete-suggestions");
+
+    // Function to handle suggestion click
+    function handleSuggestionClick(event) {
+      // Prevent default link behavior
+      event.preventDefault();
+      // Check if the clicked element is a suggestion
+      if (event.target.tagName === 'A') {
+        // Set the input value to the text of the clicked suggestion
+        searchInput.value = event.target.textContent;
+        // Optionally, hide the suggestions box
+        suggestionsBox.style.display = 'none';
+        // Optionally, trigger the search or redirect
+        // searchForm.submit(); // If you have a form to submit
+        // window.location.href = `/articles?search[query]=${encodeURIComponent(event.target.textContent)}`; // Or redirect to a search page
+      }
+    }
+
+    // Delegate click events from the suggestions box to the suggestions
+    suggestionsBox.addEventListener("click", handleSuggestionClick);
+
+    searchInput.addEventListener("input", function() {
+      const query = searchInput.value;
+      if (query.length < 1) {
+        suggestionsBox.style.display = 'none';
+        return;
+      }
+
+      fetch(`/articles/search.json?search[query]=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.length > 0) {
+            suggestionsBox.innerHTML = data.map(title => `<a href="#" class="list-group-item list-group-item-action">${title}</a>`).join('');
+            suggestionsBox.style.display = 'block';
+          } else {
+            suggestionsBox.style.display = 'none';
+          }
+        });
+    });
+
+    // Hide suggestions when not focused
+    searchInput.addEventListener("blur", function() {
+      setTimeout(() => suggestionsBox.style.display = 'none', 200);
+    });
+  });
+</script>
