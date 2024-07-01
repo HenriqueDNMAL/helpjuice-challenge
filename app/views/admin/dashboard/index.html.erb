@@ -1,0 +1,82 @@
+<div class='m-5'>
+  <%= link_to "<< Back", search_articles_path %>
+</div>
+<div class="container">
+  <div class="row justify-content-center col-9">
+    <h1>Admin Dashboard</h1>
+
+    <h2>Search Counts by IP</h2>
+    <table class="table table-striped table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>IP Address</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @search_counts_by_ip.each do |ip, count| %>
+          <tr>
+            <td><%= ip %></td>
+            <td><%= count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h2>Most Frequent Searches</h2>
+    <table class="table table-striped table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>Query</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @most_frequent_searches.each do |query, count| %>
+          <tr>
+            <td><%= query %></td>
+            <td><%= count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h2>Searches Over Time</h2>
+    <table class="table table-striped table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @searches_over_time.each do |date, count| %>
+          <tr>
+            <td><%= date %></td>
+            <td><%= count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h2>Recent Searches</h2>
+    <table class="table table-striped table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>Query</th>
+          <th>IP</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @recent_searches.each do |search| %>
+          <tr>
+            <td><%= search.query %></td>
+            <td><%= search.ip %></td>
+            <td><%= search.created_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
