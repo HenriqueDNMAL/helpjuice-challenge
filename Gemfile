@@ -11,6 +11,9 @@ gem "sprockets-rails"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
 
+# Use postgres as the database for Heroku
+gem 'pg'
+
 # Use faker for seeding data
 gem "faker"
 
