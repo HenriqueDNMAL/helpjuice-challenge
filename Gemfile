@@ -25,6 +25,9 @@ gem 'jquery-rails'
 #SASS
 gem 'sassc-rails'
 
+# Time based-groupings
+gem 'groupdate'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 

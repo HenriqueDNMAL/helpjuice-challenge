@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_01_124312) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_01_162623) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "search_analytics", force: :cascade do |t|
+    t.string "ip"
+    t.string "query"
+    t.datetime "recorded_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
