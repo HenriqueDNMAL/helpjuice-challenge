@@ -2,7 +2,7 @@ class ArticlesController < ApplicationController
   def search
     if params.dig(:search, :query).present?
       query = params.dig(:search, :query)
-      @articles = Article.where("title LIKE ?", "#{query}%").order(:title)
+      @articles = Article.where("title ILIKE ?", "#{query}%").order(:title)
 
       # Record the search only if the request is for HTML (i.e., form submission)
       if request.format.html?
