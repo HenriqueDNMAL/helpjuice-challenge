@@ -1,13 +1,39 @@
 # README
-Hello Helpjuyice team, hope you guys are doing great.
-Here's a summary of what I have done:
-1st - Did all the stuff to create a new project and repository on GitHub (rails new, gh repo, bundle)
-2nd - Created the model for Article, Articles controller, the view, its route and seed
-3rd - Created the "search" method in the Articles controller, and the search form in the view
-4th - Created the JavaScript to handle the autocomplete and be recorded only once to avoid the "pyramid problem"
-5th - Created the model for SearchAnalytic, SearchAnalytics controller, the view and its route
-6th - Added the record logic to the "search" method to store the inputs
-7th - Created the "index" method in the SearchAnalytics controller, to display analytics based on the inputs on a dashboard
-8th - Created the validations and test of both models, and also the SearchAnalytics controller
-9th - Deployed on Heroku to test it live
-10th - Did some configurations and adjustments on the live server
+# Helpjuyice Project
+
+Hello Helpjuyice team, hope you guys are doing great. Here's a summary of what I have done:
+
+## Summary
+
+### Initial Setup
+1. Created a new project and repository on GitHub using:
+   - `rails new`
+   - `gh repo`
+   - `bundle`
+
+### Article Model
+2. Created the Article model, Articles controller, view, route, and seed.
+
+### Search Functionality
+3. Added the `search` method in the Articles controller and the search form in the view.
+
+### Autocomplete Feature
+4. Implemented JavaScript to handle autocomplete, ensuring it records only once to avoid the "pyramid problem."
+
+### Search Analytics
+5. Created the SearchAnalytic model, SearchAnalytics controller, view, and route.
+
+### Record Logic
+6. Added logic to the `search` method to store the inputs.
+
+### Analytics Dashboard
+7. Implemented the `index` method in the SearchAnalytics controller to display analytics based on the inputs on a dashboard.
+
+### Validations and Tests
+8. Created validations and tests for both models and the SearchAnalytics controller.
+
+### Deployment
+9. Deployed the application on Heroku for live testing.
+
+### Live Server Adjustments
+10. Made configurations and adjustments on the live server.
